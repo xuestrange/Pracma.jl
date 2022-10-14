@@ -30,6 +30,7 @@ julia> repeat_group([2, 3])
  2
  2
 ```
+# see https://discourse.julialang.org/t/how-to-speed-up-rowsum-function/88664/3?u=strange_xue
 """
 function repeat_group(V::AbstractVector{<:Integer})
     all(V .> 0) || error("elements in V has to be positive")
