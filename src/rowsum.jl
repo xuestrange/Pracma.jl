@@ -1,3 +1,53 @@
+"""
+     groupmean(vec, groups)
+
+aggregate v according to g
+## Arguments
++ `v`: vector need to be aggregated
++ `g`: groups vector given keys
+"""
+function groupmean(v::AbstractVector{T}, g::AbstractVector{<:Integer}) where {T<:Number}
+    size(v, 1) == length(g) || error("# of rows of m should equal to length of g")
+    rst = zeros(T, maximum(g))
+    for (i, g) in pairs(g)
+        @views rst[g] += v[i]
+    end
+    return rst ./ unique(g)
+end
+
+"""
+     groupmean(mat, groups)
+
+aggregate v according to g
+## Arguments
++ `m`: matrix need to be aggregated
++ `g`: groups vector given keys
+"""
+function groupmean(m::AbstractMatrix{T}, g::AbstractVector{<:Integer}) where {T<:Number}
+    size(m, 1) == length(g) || error("# of rows of m should equal to length of g")
+    rst = zeros(T, (maximum(g), size(m, 2)))
+    for (i, g) in pairs(g)
+        @views rst[g] += m[i]
+    end
+    return rst ./ unique(g)
+end
+
+"""
+     groupsum(vec, groups)
+
+aggregate v according to g
+## Arguments
++ `v`: vector need to be aggregated
++ `g`: groups vector given keys
+"""
+function groupsum(v::AbstractVector{T}, g::AbstractVector{<:Integer}) where {T<:Number}
+    size(v, 1) == length(g) || error("# of rows of m should equal to length of g")
+    rst = zeros(T, maximum(g))
+    for (i, g) in pairs(g)
+        @views rst[g] += v[i]
+    end
+    return rst
+end
 
 """
      groupsum(mat, groups)
@@ -5,9 +55,9 @@
 aggregate m according to g
 ## Arguments
 + `m`: matrix need to be aggregated
-+ `b`: groups vector given keys
++ `g`: groups vector given keys
 """
-function groupsum(m::AbstractMatrix{T}, g::AbstractVector{<:Integer}) where T <: Number
+function groupsum(m::AbstractMatrix{T}, g::AbstractVector{<:Integer}) where {T<:Number}
     size(m, 1) == length(g) || error("# of rows of m should equal to length of g")
     rst = zeros(T, (maximum(g), size(m, 2)))
     for (i, g) in pairs(g)

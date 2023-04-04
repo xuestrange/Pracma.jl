@@ -1,4 +1,4 @@
-# index
+# Index
 ```julia
 rowsum
 ```

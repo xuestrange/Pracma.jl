@@ -1,6 +1,7 @@
 module Pracma
 
 include("rowsum.jl")
-export rowsum
+export groupsum 
+export groupmean
 export repeat_group
 end # module pracma
