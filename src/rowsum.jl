@@ -1,15 +1,15 @@
 
 """
-     rowsum(mat, groups)
+     groupsum(mat, groups)
 
 aggregate m according to g
 ## Arguments
 + `m`: matrix need to be aggregated
 + `b`: groups vector given keys
 """
-function rowsum(m::AbstractMatrix{<:Number}, g::AbstractVector{<:Integer})
+function groupsum(m::AbstractMatrix{T}, g::AbstractVector{<:Integer}) where T <: Number
     size(m, 1) == length(g) || error("# of rows of m should equal to length of g")
-    rst = fill!(similar(m, maximum(g), size(m, 2)), 0)
+    rst = zeros(T, (maximum(g), size(m, 2)))
     for (i, g) in pairs(g)
         @views rst[g, :] .+= m[i, :]
     end
