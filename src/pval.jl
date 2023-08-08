@@ -10,8 +10,11 @@ function signicant(pval)
     end
 end
 function pvalue(est_pars, num_hessian)
-    length(est_pars) == size(num_hessian, 1) || @error("pars and related hessian matrix are not matched!")
-    sderror = sqrt.(diag(inv(num_hessian)))
+    length(est_pars) == size(num_hessian, 1) || throw(error("pars and related hessian matrix are not matched!"))
+    iszero(det(num_hessian)) || throw(error("Hessin matrix is not invertable!"))
+    squ_error = diag(inv(num_hessian))
+    all(i -> i > 0, squ_error) || throw(error("Some standard errors are negative!"))
+    sderror = sqrt.(squ_error)
     t_stats = est_pars ./ sderror
     pval = 2 .* (cdf.(Normal(0, 1), -abs.(t_stats)))
     return (sderror, pval)

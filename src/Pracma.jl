@@ -1,6 +1,6 @@
 module Pracma
 using PrettyTables
-using LinearAlgebra:diag
+using LinearAlgebra
 using Distributions
 include("rowsum.jl")
 include("pval.jl")
