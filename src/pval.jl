@@ -19,11 +19,11 @@ function pvalue(est_pars, num_hessian)
     pval = 2 .* (cdf.(Normal(0, 1), -abs.(t_stats)))
     return (sderror, pval)
 end
-function table(pars_name, pars_value, num_hessian)
+function table(pars_name, pars_value, num_hessian; digits)
     sderror, pval = pvalue(pars_value, num_hessian)
     sig_level = signicant.(pval)
     header = ["Parameters", "Estimates", "S.d.", "Significant level"]
     data = hcat(pars_name, pars_value, sderror, sig_level)
     hl = Highlighter((data, i, j) -> (data[i, 4] != ""), crayon"red bold")
-    return pretty_table(data; header=header, formatters=ft_printf("%.2f"), highlighters=(hl), alignment=[:r, :r, :l, :l])
+    return pretty_table(data; header=header, formatters=ft_printf("%.$(digits)f"), highlighters=(hl), alignment=[:r, :r, :l, :l])
 end
